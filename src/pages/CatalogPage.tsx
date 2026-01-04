@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import { Search, Plus, Loader2, ChevronLeft, ChevronRight, X } from 'lucide-react';
+import { toast } from 'react-hot-toast';
 import api from '@/lib/api';
+import { useCartStore } from '@/store/cartStore';
 
 interface Product {
   id: string;
@@ -17,6 +19,7 @@ interface Product {
 const SELLOS = ['Urano', 'Paidós', 'Kepler', 'Debate'];
 
 export default function CatalogPage() {
+  const { addItem } = useCartStore();
   const [products, setProducts] = useState<Product[]>([]);
   const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
@@ -107,6 +110,22 @@ export default function CatalogPage() {
     setSearchQuery('');
     setSelectedSellos([]);
     setOnlyNew(false);
+  };
+
+  const handleAddToCart = (product: Product) => {
+    if (product.stock === 0) {
+      toast.error('Este producto está agotado', {
+        duration: 2000,
+        position: 'bottom-right',
+      });
+      return;
+    }
+
+    addItem(product, 1);
+    toast.success(`"${product.title}" agregado al carrito`, {
+      duration: 2000,
+      position: 'bottom-right',
+    });
   };
 
   const formatCurrency = (amount: number) => {
@@ -271,10 +290,16 @@ export default function CatalogPage() {
 
                         {/* Botón Agregar */}
                         <button
-                          className="w-full mt-3 bg-azul hover:bg-azul-600 text-white font-medium py-2 rounded-md transition-colors flex items-center justify-center space-x-2"
+                          onClick={() => handleAddToCart(product)}
+                          disabled={product.stock === 0}
+                          className={`w-full mt-3 ${
+                            product.stock === 0
+                              ? 'bg-gray-400 cursor-not-allowed'
+                              : 'bg-azul hover:bg-azul-600'
+                          } text-white font-medium py-2 rounded-md transition-colors flex items-center justify-center space-x-2 disabled:opacity-50`}
                         >
                           <Plus className="h-4 w-4" />
-                          <span>Agregar</span>
+                          <span>{product.stock === 0 ? 'Agotado' : 'Agregar'}</span>
                         </button>
                       </div>
                     </div>

@@ -110,7 +110,12 @@
   "account": {
     "currentBalance": 0,
     "creditLimit": 500000,
-    "status": "ok"
+    "status": "ok",
+    "invoices": [
+      { "id": "001", "date": "2024-12-15", "amount": 45000 },
+      { "id": "002", "date": "2024-12-22", "amount": 32500 },
+      { "id": "003", "date": "2024-12-28", "amount": 18750 }
+    ]
   }
 }
 

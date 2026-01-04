@@ -1,13 +1,20 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { BookOpen, FileText, CreditCard, Loader2, ChevronRight } from 'lucide-react';
+import { BookOpen, CreditCard, Package, Loader2, ChevronRight } from 'lucide-react';
 import { useAuthStore } from '@/store/authStore';
 import api from '@/lib/api';
+
+interface Invoice {
+  id: string;
+  date: string;
+  amount: number;
+}
 
 interface Account {
   currentBalance: number;
   creditLimit: number;
   status: string;
+  invoices?: Invoice[];
 }
 
 interface Product {
@@ -144,10 +151,37 @@ export default function DashboardPage() {
                     {formatCurrency(account.currentBalance)}
                   </p>
                 </div>
-                <div>
-                  <p className="text-sm text-gray-600 mb-1">Límite de crédito</p>
-                  <p className="text-lg text-gray-700">{formatCurrency(account.creditLimit)}</p>
-                </div>
+                
+                {/* Últimas facturas */}
+                {account.invoices && account.invoices.length > 0 && (
+                  <div className="pt-4 border-t border-gray-200">
+                    <p className="text-sm font-medium text-gray-700 mb-3">Últimas facturas:</p>
+                    <div className="space-y-2">
+                      {account.invoices.slice(0, 3).map((invoice) => (
+                        <div
+                          key={invoice.id}
+                          className="flex items-center justify-between text-sm"
+                        >
+                          <div className="flex items-center space-x-2">
+                            <span className="text-gray-600">Factura #{invoice.id}</span>
+                            <span className="text-gray-400">|</span>
+                            <span className="text-gray-600">
+                              {new Date(invoice.date).toLocaleDateString('es-AR', {
+                                day: '2-digit',
+                                month: '2-digit',
+                                year: 'numeric',
+                              })}
+                            </span>
+                          </div>
+                          <span className="font-medium text-gray-900">
+                            {formatCurrency(invoice.amount)}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
                 <div className="flex items-center justify-between pt-4 border-t border-gray-200">
                   <span
                     className={`px-3 py-1 rounded-full text-sm font-medium ${
@@ -176,11 +210,18 @@ export default function DashboardPage() {
             <h2 className="text-xl font-semibold text-gray-900 mb-4">Accesos Rápidos</h2>
             <div className="space-y-3">
               <Link
-                to="/catalogo"
+                to="/catalogo?nuevos=true"
                 className="flex items-center space-x-3 p-4 bg-azul text-white rounded-lg hover:bg-azul-600 transition-colors"
               >
                 <BookOpen className="h-5 w-5" />
-                <span className="font-medium">Catálogo</span>
+                <span className="font-medium">Novedades del Mes</span>
+              </Link>
+              <Link
+                to="/pedidos"
+                className="flex items-center space-x-3 p-4 bg-azul text-white rounded-lg hover:bg-azul-600 transition-colors"
+              >
+                <Package className="h-5 w-5" />
+                <span className="font-medium">Pedidos</span>
               </Link>
               <Link
                 to="/cuenta-corriente"
@@ -188,13 +229,6 @@ export default function DashboardPage() {
               >
                 <CreditCard className="h-5 w-5" />
                 <span className="font-medium">Cuenta Corriente</span>
-              </Link>
-              <Link
-                to="/facturas"
-                className="flex items-center space-x-3 p-4 bg-azul text-white rounded-lg hover:bg-azul-600 transition-colors"
-              >
-                <FileText className="h-5 w-5" />
-                <span className="font-medium">Facturas</span>
               </Link>
             </div>
           </div>
@@ -240,10 +274,10 @@ export default function DashboardPage() {
             )}
           </div>
 
-          {/* Widget Últimos Pedidos */}
+          {/* Widget Resumen de Pedidos */}
           <div className="bg-white rounded-lg shadow-md p-6 lg:col-span-2">
             <div className="flex items-center justify-between mb-4">
-              <h2 className="text-xl font-semibold text-gray-900">Últimos Pedidos</h2>
+              <h2 className="text-xl font-semibold text-gray-900">Resumen de Pedidos</h2>
               <Link
                 to="/pedidos"
                 className="text-azul hover:text-azul-600 font-medium text-sm flex items-center"

@@ -1,8 +1,9 @@
 import { useState, useEffect, useRef } from 'react';
 import { useNavigate, Link, useLocation } from 'react-router-dom';
-import { ShoppingCart, Bell, User, Menu, X, LogOut } from 'lucide-react';
+import { ShoppingCart, User, Menu, X, LogOut } from 'lucide-react';
 import uranoLogo from '@/assets/images/urano_logo.png';
 import { useAuthStore } from '@/store/authStore';
+import { useCartStore } from '@/store/cartStore';
 
 export default function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -11,13 +12,13 @@ export default function Header() {
   const location = useLocation();
   const user = useAuthStore((state) => state.user);
   const logout = useAuthStore((state) => state.logout);
+  const totalItems = useCartStore((state) => state.getTotalItems());
   const userMenuRef = useRef<HTMLDivElement>(null);
 
   const getActiveLink = () => {
     if (location.pathname === '/dashboard' || location.pathname === '/') return 'Inicio';
     if (location.pathname === '/catalogo') return 'Catálogo';
     if (location.pathname === '/cuenta-corriente') return 'Cuenta Corriente';
-    if (location.pathname === '/facturas') return 'Facturas';
     if (location.pathname === '/pedidos') return 'Pedidos';
     return '';
   };
@@ -50,7 +51,6 @@ export default function Header() {
   const navLinks = [
     { label: 'Inicio', path: '/dashboard' },
     { label: 'Cuenta Corriente', path: '/cuenta-corriente' },
-    { label: 'Facturas', path: '/facturas' },
     { label: 'Pedidos', path: '/pedidos' },
     { label: 'Catálogo', path: '/catalogo' },
   ];
@@ -88,16 +88,16 @@ export default function Header() {
           {/* Right Side Actions */}
           <div className="flex items-center space-x-4">
             {/* Shopping Cart */}
-            <button className="relative p-2 text-gray-700 hover:text-azul transition-colors">
+            <button
+              onClick={() => navigate('/cart')}
+              className="relative p-2 text-gray-700 hover:text-azul transition-opacity hover:opacity-80"
+            >
               <ShoppingCart className="h-5 w-5" />
-              <span className="absolute top-0 right-0 h-4 w-4 bg-rojo-500 text-white text-xs rounded-full flex items-center justify-center">
-                3
-              </span>
-            </button>
-
-            {/* Notifications */}
-            <button className="p-2 text-gray-700 hover:text-azul transition-colors">
-              <Bell className="h-5 w-5" />
+              {totalItems > 0 && (
+                <span className="absolute -top-1 -right-1 h-5 w-5 bg-rojo-500 text-white text-xs rounded-full flex items-center justify-center font-medium">
+                  {totalItems > 99 ? '99+' : totalItems}
+                </span>
+              )}
             </button>
 
             {/* User Menu */}
