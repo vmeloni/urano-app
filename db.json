@@ -1,0 +1,116 @@
+{
+  "users": [
+    {
+      "id": "1",
+      "email": "demo@libreria.com",
+      "name": "Librería El Ateneo",
+      "companyName": "Librería El Ateneo",
+      "cuit": "30-12345678-9"
+    }
+  ],
+  "products": [
+    {
+      "id": "1",
+      "isbn": "9789878010533",
+      "title": "Sapiens",
+      "author": "Yuval Noah Harari",
+      "sello": "Debate",
+      "price": 25000,
+      "stock": 150,
+      "isNew": true,
+      "coverImage": "https://via.placeholder.com/300x450/4a6176/ffffff?text=Sapiens"
+    },
+    {
+      "id": "2",
+      "isbn": "9789878010540",
+      "title": "Homo Deus",
+      "author": "Yuval Noah Harari",
+      "sello": "Debate",
+      "price": 28000,
+      "stock": 120,
+      "isNew": true,
+      "coverImage": "https://via.placeholder.com/300x450/4a6176/ffffff?text=Homo+Deus"
+    },
+    {
+      "id": "3",
+      "isbn": "9789878010557",
+      "title": "21 Lecciones para el Siglo XXI",
+      "author": "Yuval Noah Harari",
+      "sello": "Debate",
+      "price": 26000,
+      "stock": 100,
+      "isNew": true,
+      "coverImage": "https://via.placeholder.com/300x450/4a6176/ffffff?text=21+Lecciones"
+    },
+    {
+      "id": "4",
+      "isbn": "9789878010564",
+      "title": "El Poder del Ahora",
+      "author": "Eckhart Tolle",
+      "sello": "Urano",
+      "price": 22000,
+      "stock": 80,
+      "isNew": false,
+      "coverImage": "https://via.placeholder.com/300x450/b85450/ffffff?text=El+Poder+del+Ahora"
+    },
+    {
+      "id": "5",
+      "isbn": "9789878010571",
+      "title": "El Arte de la Guerra",
+      "author": "Sun Tzu",
+      "sello": "Paidós",
+      "price": 18000,
+      "stock": 200,
+      "isNew": false,
+      "coverImage": "https://via.placeholder.com/300x450/3d5a6b/ffffff?text=El+Arte+de+la+Guerra"
+    },
+    {
+      "id": "6",
+      "isbn": "9789878010588",
+      "title": "Cosmos",
+      "author": "Carl Sagan",
+      "sello": "Kepler",
+      "price": 30000,
+      "stock": 0,
+      "isNew": false,
+      "coverImage": "https://via.placeholder.com/300x450/2f3e4d/ffffff?text=Cosmos"
+    },
+    {
+      "id": "7",
+      "isbn": "9789878010595",
+      "title": "El Alquimista",
+      "author": "Paulo Coelho",
+      "sello": "Urano",
+      "price": 24000,
+      "stock": 90,
+      "isNew": true,
+      "coverImage": "https://via.placeholder.com/300x450/b85450/ffffff?text=El+Alquimista"
+    },
+    {
+      "id": "8",
+      "isbn": "9789878010602",
+      "title": "Pensar Rápido, Pensar Despacio",
+      "author": "Daniel Kahneman",
+      "sello": "Debate",
+      "price": 27000,
+      "stock": 110,
+      "isNew": false,
+      "coverImage": "https://via.placeholder.com/300x450/4a6176/ffffff?text=Pensar+Rapido"
+    }
+  ],
+  "orders": [
+    {
+      "id": "1",
+      "orderNumber": "0012",
+      "status": "in-preparation",
+      "items": 15,
+      "createdAt": "2024-12-10T09:00:00Z"
+    }
+  ],
+  "account": {
+    "currentBalance": 0,
+    "creditLimit": 500000,
+    "status": "ok"
+  }
+}
+
