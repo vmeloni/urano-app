@@ -105,6 +105,82 @@
       "status": "in-preparation",
       "items": 15,
       "createdAt": "2024-12-10T09:00:00Z"
+    },
+    {
+      "id": "5456",
+      "orderNumber": "#9062",
+      "customerId": "demo@libreria.com",
+      "customerName": "Librería El Ateneo",
+      "status": "in-preparation",
+      "createdAt": "2026-01-05T00:05:13.515Z",
+      "items": [
+        {
+          "productId": "3",
+          "isbn": "9789878010557",
+          "title": "21 Lecciones para el Siglo XXI",
+          "author": "Yuval Noah Harari",
+          "sello": "Debate",
+          "price": 26000,
+          "quantity": 2,
+          "subtotal": 52000
+        },
+        {
+          "productId": "7",
+          "isbn": "9789878010595",
+          "title": "El Alquimista",
+          "author": "Paulo Coelho",
+          "sello": "Urano",
+          "price": 24000,
+          "quantity": 2,
+          "subtotal": 48000
+        },
+        {
+          "productId": "5",
+          "isbn": "9789878010571",
+          "title": "El Arte de la Guerra",
+          "author": "Sun Tzu",
+          "sello": "Paidós",
+          "price": 18000,
+          "quantity": 1,
+          "subtotal": 18000
+        }
+      ],
+      "totalItems": 5,
+      "totalPrice": 118000,
+      "observations": null
+    },
+    {
+      "id": "a6bc",
+      "orderNumber": "#9772",
+      "customerId": "demo@libreria.com",
+      "customerName": "Librería El Ateneo",
+      "status": "in-preparation",
+      "createdAt": "2026-01-05T00:14:57.935Z",
+      "items": [
+        {
+          "productId": "3",
+          "isbn": "9789878010557",
+          "title": "21 Lecciones para el Siglo XXI",
+          "author": "Yuval Noah Harari",
+          "sello": "Debate",
+          "price": 26000,
+          "quantity": 1,
+          "subtotal": 26000
+        },
+        {
+          "productId": "7",
+          "isbn": "9789878010595",
+          "title": "El Alquimista",
+          "author": "Paulo Coelho",
+          "sello": "Urano",
+          "price": 24000,
+          "quantity": 1,
+          "subtotal": 24000
+        }
+      ],
+      "totalItems": 2,
+      "totalPrice": 50000,
+      "observations": null
     }
   ],
   "account": {
@@ -112,10 +188,21 @@
     "creditLimit": 500000,
     "status": "ok",
     "invoices": [
-      { "id": "001", "date": "2024-12-15", "amount": 45000 },
-      { "id": "002", "date": "2024-12-22", "amount": 32500 },
-      { "id": "003", "date": "2024-12-28", "amount": 18750 }
+      {
+        "id": "001",
+        "date": "2024-12-15",
+        "amount": 45000
+      },
+      {
+        "id": "002",
+        "date": "2024-12-22",
+        "amount": 32500
+      },
+      {
+        "id": "003",
+        "date": "2024-12-28",
+        "amount": 18750
+      }
     ]
   }
 }
-

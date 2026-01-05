@@ -33,7 +33,8 @@ interface Order {
   id: string;
   orderNumber: string;
   status: string;
-  items: number;
+  items: number | any[]; // Puede ser número o array
+  totalItems?: number; // Para pedidos nuevos
   createdAt: string;
 }
 
@@ -326,7 +327,11 @@ export default function DashboardPage() {
                               {status.label}
                             </span>
                           </td>
-                          <td className="py-3 px-4 text-sm text-gray-600">{order.items}</td>
+                          <td className="py-3 px-4 text-sm text-gray-600">
+                            {typeof order.items === 'number'
+                              ? order.items
+                              : order.totalItems || (Array.isArray(order.items) ? order.items.length : 0)}
+                          </td>
                         </tr>
                       );
                     })}
