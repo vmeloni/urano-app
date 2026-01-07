@@ -103,8 +103,41 @@
       "id": "1",
       "orderNumber": "0012",
       "status": "in-preparation",
-      "items": 15,
-      "createdAt": "2024-12-10T09:00:00Z"
+      "createdAt": "2024-12-10T09:00:00Z",
+      "items": [
+        {
+          "productId": "1",
+          "isbn": "9789878010533",
+          "title": "Sapiens",
+          "author": "Yuval Noah Harari",
+          "sello": "Debate",
+          "price": 25000,
+          "quantity": 5,
+          "subtotal": 125000
+        },
+        {
+          "productId": "2",
+          "isbn": "9789878010540",
+          "title": "Homo Deus",
+          "author": "Yuval Noah Harari",
+          "sello": "Debate",
+          "price": 28000,
+          "quantity": 3,
+          "subtotal": 84000
+        },
+        {
+          "productId": "3",
+          "isbn": "9789878010557",
+          "title": "21 Lecciones para el Siglo XXI",
+          "author": "Yuval Noah Harari",
+          "sello": "Debate",
+          "price": 26000,
+          "quantity": 7,
+          "subtotal": 182000
+        }
+      ],
+      "totalItems": 15,
+      "totalPrice": 391000
     },
     {
       "id": "5456",

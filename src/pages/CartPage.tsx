@@ -20,14 +20,14 @@ export default function CartPage() {
   // Si el carrito está vacío
   if (items.length === 0) {
     return (
-      <div className="min-h-screen bg-rosa-100 py-8">
+      <div className="min-h-screen bg-white py-8">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <button
-            onClick={() => navigate('/catalogo')}
+            onClick={() => navigate('/dashboard')}
             className="flex items-center gap-2 text-azul hover:text-azul-600 mb-6 transition-colors"
           >
             <ArrowLeft className="h-4 w-4" />
-            <span>Volver al catálogo</span>
+            <span>Volver al inicio</span>
           </button>
 
           <div className="bg-white rounded-lg shadow-md p-12 text-center">
@@ -39,7 +39,7 @@ export default function CartPage() {
               Explorá nuestro catálogo y agregá productos a tu carrito
             </p>
             <button
-              onClick={() => navigate('/catalogo')}
+              onClick={() => navigate('/dashboard')}
               className="bg-azul hover:bg-azul-600 text-white px-6 py-3 rounded-lg transition-colors font-medium"
             >
               Ver catálogo
@@ -52,17 +52,17 @@ export default function CartPage() {
 
   // Carrito con productos
   return (
-    <div className="min-h-screen bg-rosa-100 py-8">
+    <div className="min-h-screen bg-white py-8">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-6 gap-4">
           <div className="flex items-center gap-4">
             <button
-              onClick={() => navigate('/catalogo')}
+              onClick={() => navigate('/dashboard')}
               className="flex items-center gap-2 text-azul hover:text-azul-600 transition-colors"
             >
               <ArrowLeft className="h-4 w-4" />
-              <span>Volver al catálogo</span>
+              <span>Volver al inicio</span>
             </button>
             <h1 className="text-2xl font-bold text-gray-900">
               Mi Carrito ({totalItems} {totalItems === 1 ? 'producto' : 'productos'})

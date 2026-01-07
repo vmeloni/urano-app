@@ -91,7 +91,7 @@ export default function CheckoutPage() {
   // Pantalla de confirmación
   if (orderConfirmed) {
     return (
-      <div className="min-h-screen bg-rosa-100 py-12">
+      <div className="min-h-screen bg-white py-12">
         <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="bg-white rounded-lg shadow-md p-8 text-center">
             <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -107,7 +107,7 @@ export default function CheckoutPage() {
               correctamente.
             </p>
 
-            <div className="bg-rosa-50 rounded-lg p-4 mb-6">
+            <div className="bg-gray-50 rounded-lg p-4 mb-6">
               <div className="text-sm text-gray-600 space-y-1">
                 <p>
                   <strong>Total de productos:</strong> {totalItems}
@@ -130,10 +130,10 @@ export default function CheckoutPage() {
               </button>
 
               <button
-                onClick={() => navigate('/catalogo')}
+                onClick={() => navigate('/dashboard')}
                 className="border border-azul text-azul hover:bg-azul-50 px-6 py-3 rounded-lg font-semibold transition-colors"
               >
-                Volver al catálogo
+                Volver al inicio
               </button>
             </div>
           </div>
@@ -144,7 +144,7 @@ export default function CheckoutPage() {
 
   // Pantalla de checkout
   return (
-    <div className="min-h-screen bg-rosa-100 py-8">
+    <div className="min-h-screen bg-white py-8">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <button

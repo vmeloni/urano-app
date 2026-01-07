@@ -17,7 +17,6 @@ export default function Header() {
 
   const getActiveLink = () => {
     if (location.pathname === '/dashboard' || location.pathname === '/') return 'Inicio';
-    if (location.pathname === '/catalogo') return 'Catálogo';
     if (location.pathname === '/cuenta-corriente') return 'Cuenta Corriente';
     if (location.pathname === '/pedidos') return 'Pedidos';
     return '';
@@ -50,13 +49,12 @@ export default function Header() {
 
   const navLinks = [
     { label: 'Inicio', path: '/dashboard' },
-    { label: 'Cuenta Corriente', path: '/cuenta-corriente' },
     { label: 'Pedidos', path: '/pedidos' },
-    { label: 'Catálogo', path: '/catalogo' },
+    { label: 'Cuenta Corriente', path: '/cuenta-corriente' },
   ];
 
   return (
-    <header className="bg-white border-b border-gray-200 sticky top-0 z-50">
+    <header className="bg-white border-b border-gray-100 shadow-sm sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}

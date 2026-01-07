@@ -13,17 +13,17 @@ export default {
           400: '#fcd6da',
           DEFAULT: '#fdf8f9',
         },
-        // Azul Grisáceo - Principal
+        // Azul Grisáceo - Principal (mantener compatibilidad)
         azul: {
           50: '#f8f9fb',
           100: '#e8edf3',
           200: '#d4dce8',
           300: '#5b7388',
           400: '#4a6176',
-          500: '#3d5063',
+          500: '#486581', // azul-primary
           600: '#2f3e4d',
           700: '#243240',
-          DEFAULT: '#4a6176',
+          DEFAULT: '#486581', // azul-primary
         },
         // Terracota - Acentos
         terracota: {
@@ -39,10 +39,16 @@ export default {
         // Rojo Crítico - SOLO CTAs importantes
         rojo: {
           400: '#e63946',
-          500: '#c41e3a',
+          500: '#c00000', // rojo-destructive y rojo-brand
           600: '#a31830',
-          DEFAULT: '#c41e3a',
+          DEFAULT: '#c00000',
         },
+        // Sistema de diseño Stripe + Urano
+        'azul-primary': '#486581',
+        'rojo-destructive': '#c00000',
+        'rojo-brand': '#c00000',
+        'verde-success': '#10b981',
+        'amarillo-warning': '#f59e0b',
       },
       fontFamily: {
         serif: ['Georgia', 'Times New Roman', 'serif'],

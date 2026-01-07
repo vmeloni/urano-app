@@ -136,7 +136,7 @@ export default function CatalogPage() {
   };
 
   return (
-    <div className="bg-rosa-100 min-h-screen py-8">
+    <div className="bg-white min-h-screen py-8">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col lg:flex-row gap-6">
           {/* Sidebar Filtros */}
