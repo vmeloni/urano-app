@@ -1,12 +1,10 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { Loader2 } from 'lucide-react';
 import { useAuthStore } from '@/store/authStore';
 import { useCartStore } from '@/store/cartStore';
 import { toast } from 'react-hot-toast';
 import api from '@/lib/api';
-import FinancialSummary from '@/components/dashboard/FinancialSummary';
-import SearchBar from '@/components/dashboard/SearchBar';
 import QuickReorder from '@/components/dashboard/QuickReorder';
 import ProductGrid from '@/components/dashboard/ProductGrid';
 import ProductCard from '@/components/dashboard/ProductCard';
@@ -42,6 +40,7 @@ interface Order {
 
 export default function DashboardPage() {
   const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
   const user = useAuthStore((state) => state.user);
   const { addItem } = useCartStore();
 
@@ -51,7 +50,8 @@ export default function DashboardPage() {
   const [orders, setOrders] = useState<Order[]>([]);
   const [featuredProducts, setFeaturedProducts] = useState<Product[]>([]);
   const [recommendedProducts, setRecommendedProducts] = useState<Product[]>([]);
-  const [catalogProducts, setCatalogProducts] = useState<Product[]>([]);
+  const [bestsellersProducts, setBestsellersProducts] = useState<Product[]>([]);
+  const [preventasProducts, setPreventasProducts] = useState<Product[]>([]);
 
   // Estados de loading
   const [loadingAccount, setLoadingAccount] = useState(true);
@@ -59,11 +59,15 @@ export default function DashboardPage() {
   const [loadingOrders, setLoadingOrders] = useState(true);
 
   // Estados de búsqueda y filtros
-  const [searchQuery, setSearchQuery] = useState('');
-  const [sortBy, setSortBy] = useState('most-sold');
-  const [currentPage, setCurrentPage] = useState(1);
-  const [totalProducts, setTotalProducts] = useState(0);
-  const productsPerPage = 18;
+  const [searchQuery, setSearchQuery] = useState(searchParams.get('search') || '');
+
+  // Leer query parameter de búsqueda desde URL
+  useEffect(() => {
+    const urlSearch = searchParams.get('search');
+    if (urlSearch) {
+      setSearchQuery(urlSearch);
+    }
+  }, [searchParams]);
 
   // Fetch Account
   useEffect(() => {
@@ -95,9 +99,13 @@ export default function DashboardPage() {
         const recommended = response.data.slice(0, 6);
         setRecommendedProducts(recommended);
         
-        // Catálogo completo (todos)
-        setCatalogProducts(response.data);
-        setTotalProducts(response.data.length);
+        // Más vendidos (simulado: productos con más stock o aleatorios)
+        const bestsellers = response.data.slice(0, 6);
+        setBestsellersProducts(bestsellers);
+        
+        // Pre-ventas (simulado: productos con isNew o aleatorios)
+        const preventas = response.data.filter(p => p.isNew).slice(0, 6);
+        setPreventasProducts(preventas);
       } catch (error) {
         console.error('Error fetching products:', error);
       } finally {
@@ -122,43 +130,6 @@ export default function DashboardPage() {
     fetchOrders();
   }, []);
 
-  // Filtrar productos por búsqueda
-  useEffect(() => {
-    if (searchQuery.trim()) {
-      const filtered = products.filter(
-        (p) =>
-          p.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          p.author.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          p.isbn.includes(searchQuery) ||
-          p.sello.toLowerCase().includes(searchQuery.toLowerCase())
-      );
-      setCatalogProducts(filtered);
-      setTotalProducts(filtered.length);
-    } else {
-      setCatalogProducts(products);
-      setTotalProducts(products.length);
-    }
-  }, [searchQuery, products]);
-
-  // Ordenar productos
-  useEffect(() => {
-    const sorted = [...catalogProducts];
-    switch (sortBy) {
-      case 'price-asc':
-        sorted.sort((a, b) => a.price - b.price);
-        break;
-      case 'price-desc':
-        sorted.sort((a, b) => b.price - a.price);
-        break;
-      case 'newest':
-        sorted.sort((a, b) => (b.isNew ? 1 : 0) - (a.isNew ? 1 : 0));
-        break;
-      default:
-        // most-sold: mantener orden original
-        break;
-    }
-    setCatalogProducts(sorted);
-  }, [sortBy]);
 
   // Calcular datos financieros
   const openOrdersCount = orders.filter((order) =>
@@ -235,14 +206,14 @@ export default function DashboardPage() {
 
   const handleSearch = (query: string) => {
     setSearchQuery(query);
-    setCurrentPage(1);
+    // Actualizar URL con query parameter
+    if (query.trim()) {
+      setSearchParams({ search: query.trim() });
+    } else {
+      setSearchParams({});
+    }
   };
 
-  // Paginación
-  const startIndex = (currentPage - 1) * productsPerPage;
-  const endIndex = startIndex + productsPerPage;
-  const paginatedProducts = catalogProducts.slice(startIndex, endIndex);
-  const totalPages = Math.ceil(totalProducts / productsPerPage);
 
   // Fecha actual
   const currentDate = new Date().toLocaleDateString('es-AR', {
@@ -255,26 +226,12 @@ export default function DashboardPage() {
   return (
     <div className="min-h-screen bg-white">
       <div className="max-w-[1600px] mx-auto px-4 py-6">
-        {/* 1. Info Financiera */}
-        {!loadingAccount && account && (
-          <FinancialSummary
-            balance={account.currentBalance}
-            openOrders={openOrdersCount}
-            lastOrder={lastOrder}
-          />
-        )}
-
-        {/* 2. Saludo + Búsqueda */}
+        {/* 1. Saludo */}
         <div className="mb-6">
           <h1 className="text-2xl font-bold text-gray-900 mb-1">
             Hola, {user?.name || 'Usuario'}
           </h1>
-          <p className="text-sm text-gray-600 mb-4 capitalize">{currentDate}</p>
-          <SearchBar
-            value={searchQuery}
-            onChange={setSearchQuery}
-            onSearch={handleSearch}
-          />
+          <p className="text-sm text-gray-600 capitalize">{currentDate}</p>
         </div>
 
         {/* 3. Repetir Pedido Rápido */}
@@ -305,89 +262,27 @@ export default function DashboardPage() {
           />
         )}
 
-        {/* 6. Catálogo Completo */}
-        <div className="mb-8">
-          {/* Header con filtros */}
-          <div className="flex items-center justify-between mb-4">
-            <h2 className="text-lg font-bold text-gray-900">Catálogo Completo</h2>
-            <div className="flex items-center gap-3">
-              <select
-                value={sortBy}
-                onChange={(e) => setSortBy(e.target.value)}
-                className="px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              >
-                <option value="most-sold">Más vendidos</option>
-                <option value="price-asc">Precio: menor a mayor</option>
-                <option value="price-desc">Precio: mayor a menor</option>
-                <option value="newest">Novedades</option>
-              </select>
-            </div>
-          </div>
+        {/* 6. Más Vendidos */}
+        {!loadingProducts && (
+          <ProductGrid
+            title="Más Vendidos"
+            products={bestsellersProducts}
+            showViewAll
+            viewAllLink="/catalogo?filter=bestsellers"
+            onAddToCart={handleAddToCart}
+          />
+        )}
 
-          {/* Grid de productos */}
-          {loadingProducts ? (
-            <div className="flex items-center justify-center py-12">
-              <Loader2 className="h-6 w-6 animate-spin" style={{ color: '#5B7C99' }} />
-            </div>
-          ) : paginatedProducts.length > 0 ? (
-            <>
-              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-6 items-stretch">
-                {paginatedProducts.map((product) => (
-                  <ProductCard
-                    key={product.id}
-                    product={product}
-                    onAddToCart={handleAddToCart}
-                  />
-                ))}
-              </div>
-
-              {/* Paginación */}
-              {totalPages > 1 && (
-                <div className="flex items-center justify-between">
-                  <p className="text-sm text-gray-600">
-                    Mostrando {startIndex + 1}-{Math.min(endIndex, totalProducts)} de {totalProducts} productos
-                  </p>
-                  <div className="flex items-center gap-2">
-                    <button
-                      onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
-                      disabled={currentPage === 1}
-                      className="px-3 py-1.5 text-sm border border-gray-300 rounded disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50"
-                    >
-                      ←
-                    </button>
-                    {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
-                      const page = i + 1;
-                      return (
-                        <button
-                          key={page}
-                          onClick={() => setCurrentPage(page)}
-                          className={`px-3 py-1.5 text-sm border rounded ${
-                            currentPage === page
-                              ? 'border-blue-500 bg-blue-50 text-blue-700'
-                              : 'border-gray-300 hover:bg-gray-50'
-                          }`}
-                        >
-                          {page}
-                        </button>
-                      );
-                    })}
-                    <button
-                      onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
-                      disabled={currentPage === totalPages}
-                      className="px-3 py-1.5 text-sm border border-gray-300 rounded disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50"
-                    >
-                      →
-                    </button>
-                  </div>
-                </div>
-              )}
-            </>
-          ) : (
-            <div className="text-center py-12 text-gray-500 text-sm">
-              No se encontraron productos
-            </div>
-          )}
-        </div>
+        {/* 7. Pre-ventas */}
+        {!loadingProducts && (
+          <ProductGrid
+            title="Pre-ventas"
+            products={preventasProducts}
+            showViewAll
+            viewAllLink="/catalogo?filter=preventas"
+            onAddToCart={handleAddToCart}
+          />
+        )}
       </div>
     </div>
   );

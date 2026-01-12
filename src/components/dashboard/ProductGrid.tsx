@@ -1,6 +1,7 @@
 import { ChevronRight } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import ProductCard from './ProductCard';
+import ProductSlider from './ProductSlider';
 
 interface Product {
   id: string;
@@ -33,6 +34,9 @@ export default function ProductGrid({
 
   // Solo "Novedades del Mes" tiene fondo rosa
   const isFeatured = badge === 'DESTACADO';
+  
+  // Usar slider si hay más de 4 productos
+  const shouldUseSlider = products.length > 4;
 
   return (
     <div className={`mb-8 ${isFeatured ? 'p-6 rounded-lg' : ''}`} style={isFeatured ? { backgroundColor: '#FDF6F3' } : {}}>
@@ -61,13 +65,17 @@ export default function ProductGrid({
         )}
       </div>
 
-      {/* Grid */}
+      {/* Grid o Slider */}
       {products.length > 0 ? (
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 items-stretch">
-          {products.map((product) => (
-            <ProductCard key={product.id} product={product} onAddToCart={onAddToCart} />
-          ))}
-        </div>
+        shouldUseSlider ? (
+          <ProductSlider products={products} onAddToCart={onAddToCart} />
+        ) : (
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 items-stretch">
+            {products.map((product) => (
+              <ProductCard key={product.id} product={product} onAddToCart={onAddToCart} />
+            ))}
+          </div>
+        )
       ) : (
         <div className="text-center py-8 text-gray-500 text-sm">
           No hay productos disponibles

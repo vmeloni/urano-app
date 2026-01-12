@@ -3,6 +3,8 @@ import { Search, Plus, Loader2, ChevronLeft, ChevronRight, X } from 'lucide-reac
 import { toast } from 'react-hot-toast';
 import api from '@/lib/api';
 import { useCartStore } from '@/store/cartStore';
+import BookImage from '@/components/BookImage';
+import { useStockAlerts } from '@/hooks/useStockAlerts';
 
 interface Product {
   id: string;
@@ -17,6 +19,74 @@ interface Product {
 }
 
 const SELLOS = ['Urano', 'Paidós', 'Kepler', 'Debate'];
+
+// Componente para acciones de la card (input + botón)
+function ProductCardActions({
+  product,
+  onAddToCart,
+}: {
+  product: Product;
+  onAddToCart: (product: Product, quantity: number) => void;
+}) {
+  const [quantity, setQuantity] = useState(1);
+  const { registerAlert, isNotified } = useStockAlerts();
+  
+  const isOutOfStock = product.stock === 0;
+  const isNotifiedForThisProduct = isNotified(product.id);
+
+  return (
+    <div className="flex gap-2 mt-3">
+      {isOutOfStock ? (
+        <>
+          <input
+            type="number"
+            disabled
+            defaultValue="1"
+            className="w-16 px-2 py-2 border border-gray-300 rounded text-sm text-center bg-gray-100 text-gray-400 cursor-not-allowed"
+          />
+          {isNotifiedForThisProduct ? (
+            <button
+              disabled
+              className="flex-1 bg-green-100 text-green-700 px-4 py-2 rounded text-sm font-semibold cursor-not-allowed flex items-center justify-center gap-1"
+            >
+              ✓ Te avisaremos
+            </button>
+          ) : (
+            <button
+              onClick={() => registerAlert(product.id)}
+              className="flex-1 bg-[#5B7C99] text-white px-4 py-2 rounded text-sm font-semibold hover:opacity-90 transition-opacity flex items-center justify-center gap-1"
+            >
+              🔔 Avisarme
+            </button>
+          )}
+        </>
+      ) : (
+        <>
+          <input
+            type="number"
+            min="1"
+            max={product.stock}
+            value={quantity}
+            onChange={(e) => {
+              const val = parseInt(e.target.value) || 1;
+              setQuantity(Math.min(Math.max(1, val), product.stock));
+            }}
+            className="w-16 px-2 py-2 border border-gray-300 rounded text-sm text-center focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+          />
+          <button
+            onClick={() => {
+              onAddToCart(product, quantity);
+              setQuantity(1); // Reset después de agregar
+            }}
+            className="flex-1 bg-[#5B7C99] text-white px-4 py-2 rounded text-sm font-semibold hover:opacity-90 transition-opacity"
+          >
+            + Agregar
+          </button>
+        </>
+      )}
+    </div>
+  );
+}
 
 export default function CatalogPage() {
   const { addItem } = useCartStore();
@@ -112,7 +182,7 @@ export default function CatalogPage() {
     setOnlyNew(false);
   };
 
-  const handleAddToCart = (product: Product) => {
+  const handleAddToCart = (product: Product, quantity: number = 1) => {
     if (product.stock === 0) {
       toast.error('Este producto está agotado', {
         duration: 2000,
@@ -121,8 +191,13 @@ export default function CatalogPage() {
       return;
     }
 
-    addItem(product, 1);
-    toast.success(`"${product.title}" agregado al carrito`, {
+    if (quantity < 1) {
+      toast.error('La cantidad debe ser mayor a 0');
+      return;
+    }
+
+    addItem(product, quantity);
+    toast.success(`${quantity} unidad(es) de "${product.title}" agregada(s) al carrito`, {
       duration: 2000,
       position: 'bottom-right',
     });
@@ -229,7 +304,7 @@ export default function CatalogPage() {
 
             {/* Grid de productos */}
             {loading ? (
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                 {[...Array(8)].map((_, i) => (
                   <div
                     key={i}
@@ -243,7 +318,7 @@ export default function CatalogPage() {
               </div>
             ) : currentProducts.length > 0 ? (
               <>
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                   {currentProducts.map((product) => (
                     <div
                       key={product.id}
@@ -251,8 +326,8 @@ export default function CatalogPage() {
                     >
                       {/* Imagen */}
                       <div className="relative mb-3">
-                        <img
-                          src={product.coverImage || 'https://via.placeholder.com/300x450'}
+                        <BookImage
+                          src={product.coverImage}
                           alt={product.title}
                           className="w-full h-64 object-cover rounded"
                         />
@@ -288,19 +363,11 @@ export default function CatalogPage() {
                           {formatCurrency(product.price)}
                         </p>
 
-                        {/* Botón Agregar */}
-                        <button
-                          onClick={() => handleAddToCart(product)}
-                          disabled={product.stock === 0}
-                          className={`w-full mt-3 ${
-                            product.stock === 0
-                              ? 'bg-gray-400 cursor-not-allowed'
-                              : 'bg-azul hover:bg-azul-600'
-                          } text-white font-medium py-2 rounded-md transition-colors flex items-center justify-center space-x-2 disabled:opacity-50`}
-                        >
-                          <Plus className="h-4 w-4" />
-                          <span>{product.stock === 0 ? 'Agotado' : 'Agregar'}</span>
-                        </button>
+                        {/* Input cantidad + Botón Agregar */}
+                        <ProductCardActions
+                          product={product}
+                          onAddToCart={handleAddToCart}
+                        />
                       </div>
                     </div>
                   ))}

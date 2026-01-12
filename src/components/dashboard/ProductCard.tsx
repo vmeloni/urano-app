@@ -1,5 +1,7 @@
 import { useState } from 'react';
-import { Plus } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import BookImage from '@/components/BookImage';
+import { useStockAlerts } from '@/hooks/useStockAlerts';
 
 interface Product {
   id: string;
@@ -17,7 +19,26 @@ interface ProductCardProps {
 }
 
 export default function ProductCard({ product, onAddToCart }: ProductCardProps) {
+  const navigate = useNavigate();
   const [quantity, setQuantity] = useState(1);
+  const { registerAlert, isNotified } = useStockAlerts();
+  
+  const isOutOfStock = product.stock === 0;
+  const isNotifiedForThisProduct = isNotified(product.id);
+
+  const handleCardClick = () => {
+    navigate(`/producto/${product.id}`);
+  };
+
+  const handleAddClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    handleAdd();
+  };
+
+  const handleAlertClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    registerAlert(product.id);
+  };
 
   const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat('es-AR', {
@@ -42,11 +63,11 @@ export default function ProductCard({ product, onAddToCart }: ProductCardProps) 
   };
 
   return (
-    <div className="group flex flex-col h-full">
+    <div className="group flex flex-col h-full cursor-pointer" onClick={handleCardClick}>
       {/* Imagen */}
       <div className="aspect-[3/4] mb-2 rounded-lg overflow-hidden bg-gray-100 relative">
-        <img
-          src={product.coverImage || 'https://via.placeholder.com/200x280'}
+        <BookImage
+          src={product.coverImage}
           alt={product.title}
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
         />
@@ -73,37 +94,55 @@ export default function ProductCard({ product, onAddToCart }: ProductCardProps) 
         </p>
 
         {/* Input cantidad + Botón - mt-auto para empujar al fondo */}
-        <div className="flex gap-2 mt-auto">
-          <input
-            type="number"
-            min="1"
-            max={product.stock}
-            value={quantity}
-            onChange={(e) => {
-              const val = parseInt(e.target.value) || 1;
-              setQuantity(Math.min(val, product.stock));
-            }}
-            className="w-12 px-2 py-1.5 text-xs border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-            disabled={product.stock === 0}
-          />
-          <button
-            onClick={handleAdd}
-            disabled={product.stock === 0}
-            className="flex-1 py-1.5 px-3 text-xs font-semibold text-white rounded transition-colors flex items-center justify-center gap-1 disabled:bg-gray-300 disabled:cursor-not-allowed"
-            style={{ backgroundColor: product.stock === 0 ? '#D1D5DB' : '#5B7C99' }}
-            onMouseEnter={(e) => {
-              if (product.stock > 0) {
-                e.currentTarget.style.backgroundColor = '#4A6B85';
-              }
-            }}
-            onMouseLeave={(e) => {
-              if (product.stock > 0) {
-                e.currentTarget.style.backgroundColor = '#5B7C99';
-              }
-            }}
-          >
-            <Plus className="h-3 w-3" />
-          </button>
+        <div className="flex gap-2 mt-2 mt-auto">
+          {isOutOfStock ? (
+            <>
+              <input
+                type="number"
+                disabled
+                defaultValue="1"
+                onClick={(e) => e.stopPropagation()}
+                className="w-16 px-2 py-2 border border-gray-300 rounded text-sm text-center bg-gray-100 text-gray-400 cursor-not-allowed"
+              />
+              {isNotifiedForThisProduct ? (
+                <button
+                  disabled
+                  className="flex-1 bg-green-100 text-green-700 px-4 py-2 rounded text-sm font-semibold cursor-not-allowed flex items-center justify-center gap-1"
+                >
+                  ✓ Te avisaremos
+                </button>
+              ) : (
+                <button
+                  onClick={handleAlertClick}
+                  className="flex-1 bg-[#5B7C99] text-white px-4 py-2 rounded text-sm font-semibold hover:opacity-90 transition-opacity flex items-center justify-center gap-1"
+                >
+                  🔔 Avisarme
+                </button>
+              )}
+            </>
+          ) : (
+            <>
+              <input
+                type="number"
+                min="1"
+                max={product.stock}
+                value={quantity}
+                onChange={(e) => {
+                  e.stopPropagation();
+                  const val = parseInt(e.target.value) || 1;
+                  setQuantity(Math.min(Math.max(1, val), product.stock));
+                }}
+                onClick={(e) => e.stopPropagation()}
+                className="w-16 px-2 py-2 border border-gray-300 rounded text-sm text-center focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              />
+              <button
+                onClick={handleAddClick}
+                className="flex-1 bg-[#5B7C99] text-white px-4 py-2 rounded text-sm font-semibold hover:opacity-90 transition-opacity"
+              >
+                + Agregar
+              </button>
+            </>
+          )}
         </div>
       </div>
     </div>

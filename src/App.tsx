@@ -6,7 +6,10 @@ import LoginPage from './pages/LoginPage';
 import DashboardPage from './pages/DashboardPage';
 import CatalogPage from './pages/CatalogPage';
 import CartPage from './pages/CartPage';
-import CheckoutPage from './pages/CheckoutPage';
+import PedidosPage from './pages/PedidosPage';
+import ProductDetailPage from './pages/ProductDetailPage';
+import AyudaPage from './pages/AyudaPage';
+import TerminosPage from './pages/TerminosPage';
 
 function App() {
   return (
@@ -45,11 +48,41 @@ function App() {
           }
         />
         <Route
-          path="/checkout"
+          path="/pedidos"
           element={
             <ProtectedRoute>
               <MainLayout>
-                <CheckoutPage />
+                <PedidosPage />
+              </MainLayout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/producto/:id"
+          element={
+            <ProtectedRoute>
+              <MainLayout>
+                <ProductDetailPage />
+              </MainLayout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/ayuda"
+          element={
+            <ProtectedRoute>
+              <MainLayout>
+                <AyudaPage />
+              </MainLayout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/terminos"
+          element={
+            <ProtectedRoute>
+              <MainLayout>
+                <TerminosPage />
               </MainLayout>
             </ProtectedRoute>
           }

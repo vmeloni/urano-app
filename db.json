@@ -214,6 +214,244 @@
       "totalItems": 2,
       "totalPrice": 50000,
       "observations": null
+    },
+    {
+      "id": "c824",
+      "orderNumber": "#7127",
+      "customerId": "demo@libreria.com",
+      "customerName": "Librería El Ateneo",
+      "status": "in-preparation",
+      "createdAt": "2026-01-11T16:49:07.891Z",
+      "items": [
+        {
+          "productId": "1",
+          "isbn": "9789878010533",
+          "title": "Sapiens",
+          "author": "Yuval Noah Harari",
+          "sello": "Debate",
+          "price": 25000,
+          "quantity": 5,
+          "subtotal": 125000
+        },
+        {
+          "productId": "2",
+          "isbn": "9789878010540",
+          "title": "Homo Deus",
+          "author": "Yuval Noah Harari",
+          "sello": "Debate",
+          "price": 28000,
+          "quantity": 3,
+          "subtotal": 84000
+        },
+        {
+          "productId": "3",
+          "isbn": "9789878010557",
+          "title": "21 Lecciones para el Siglo XXI",
+          "author": "Yuval Noah Harari",
+          "sello": "Debate",
+          "price": 26000,
+          "quantity": 7,
+          "subtotal": 182000
+        }
+      ],
+      "totalItems": 15,
+      "totalPrice": 391000,
+      "observations": null
+    },
+    {
+      "id": "e58f",
+      "orderNumber": "#6295",
+      "customerId": "demo@libreria.com",
+      "customerName": "Librería El Ateneo",
+      "status": "in-preparation",
+      "createdAt": "2026-01-12T02:12:07.024Z",
+      "items": [
+        {
+          "productId": "3",
+          "isbn": "9789878010557",
+          "title": "21 Lecciones para el Siglo XXI",
+          "author": "Yuval Noah Harari",
+          "sello": "Debate",
+          "price": 26000,
+          "quantity": 1,
+          "subtotal": 26000
+        },
+        {
+          "productId": "7",
+          "isbn": "9789878010595",
+          "title": "El Alquimista",
+          "author": "Paulo Coelho",
+          "sello": "Urano",
+          "price": 24000,
+          "quantity": 90,
+          "subtotal": 2160000
+        }
+      ],
+      "totalItems": 91,
+      "totalPrice": 2186000,
+      "observations": null
+    },
+    {
+      "id": "1233",
+      "orderNumber": "7136",
+      "customerId": "demo@libreria.com",
+      "customerName": "Librería El Ateneo",
+      "status": "abierto",
+      "createdAt": "2026-01-12T02:16:31.918Z",
+      "items": [
+        {
+          "productId": "1",
+          "isbn": "9789878010533",
+          "title": "Sapiens",
+          "author": "Yuval Noah Harari",
+          "sello": "Debate",
+          "price": 25000,
+          "quantity": 6,
+          "subtotal": 150000
+        },
+        {
+          "productId": "2",
+          "isbn": "9789878010540",
+          "title": "Homo Deus",
+          "author": "Yuval Noah Harari",
+          "sello": "Debate",
+          "price": 28000,
+          "quantity": 5,
+          "subtotal": 140000
+        }
+      ],
+      "totalItems": 11,
+      "totalPrice": 290000,
+      "observations": null
+    },
+    {
+      "id": "76ff",
+      "orderNumber": "7990",
+      "customerId": "demo@libreria.com",
+      "customerName": "Librería El Ateneo",
+      "status": "abierto",
+      "createdAt": "2026-01-12T02:32:52.036Z",
+      "items": [
+        {
+          "productId": "3",
+          "isbn": "9789878010557",
+          "title": "21 Lecciones para el Siglo XXI",
+          "author": "Yuval Noah Harari",
+          "sello": "Debate",
+          "price": 26000,
+          "quantity": 2,
+          "subtotal": 52000
+        },
+        {
+          "productId": "7",
+          "isbn": "9789878010595",
+          "title": "El Alquimista",
+          "author": "Paulo Coelho",
+          "sello": "Urano",
+          "price": 24000,
+          "quantity": 2,
+          "subtotal": 48000
+        },
+        {
+          "productId": "5",
+          "isbn": "9789878010571",
+          "title": "El Arte de la Guerra",
+          "author": "Sun Tzu",
+          "sello": "Paidós",
+          "price": 18000,
+          "quantity": 1,
+          "subtotal": 18000
+        }
+      ],
+      "totalItems": 5,
+      "totalPrice": 118000,
+      "observations": null
+    },
+    {
+      "id": "3564",
+      "orderNumber": "9243",
+      "customerId": "demo@libreria.com",
+      "customerName": "Librería El Ateneo",
+      "status": "abierto",
+      "createdAt": "2026-01-12T02:33:20.333Z",
+      "items": [
+        {
+          "productId": "2",
+          "isbn": "9789878010540",
+          "title": "Homo Deus",
+          "author": "Yuval Noah Harari",
+          "sello": "Debate",
+          "price": 28000,
+          "quantity": 1,
+          "subtotal": 28000
+        },
+        {
+          "productId": "3",
+          "isbn": "9789878010557",
+          "title": "21 Lecciones para el Siglo XXI",
+          "author": "Yuval Noah Harari",
+          "sello": "Debate",
+          "price": 26000,
+          "quantity": 1,
+          "subtotal": 26000
+        },
+        {
+          "productId": "1",
+          "isbn": "9789878010533",
+          "title": "Sapiens",
+          "author": "Yuval Noah Harari",
+          "sello": "Debate",
+          "price": 25000,
+          "quantity": 1,
+          "subtotal": 25000
+        }
+      ],
+      "totalItems": 3,
+      "totalPrice": 79000,
+      "observations": null
+    },
+    {
+      "id": "eb24",
+      "orderNumber": "7487",
+      "customerId": "demo@libreria.com",
+      "customerName": "Librería El Ateneo",
+      "status": "abierto",
+      "createdAt": "2026-01-12T14:23:53.231Z",
+      "items": [
+        {
+          "productId": "1",
+          "isbn": "9789878010533",
+          "title": "Sapiens",
+          "author": "Yuval Noah Harari",
+          "sello": "Debate",
+          "price": 25000,
+          "quantity": 5,
+          "subtotal": 125000
+        },
+        {
+          "productId": "2",
+          "isbn": "9789878010540",
+          "title": "Homo Deus",
+          "author": "Yuval Noah Harari",
+          "sello": "Debate",
+          "price": 28000,
+          "quantity": 3,
+          "subtotal": 84000
+        },
+        {
+          "productId": "3",
+          "isbn": "9789878010557",
+          "title": "21 Lecciones para el Siglo XXI",
+          "author": "Yuval Noah Harari",
+          "sello": "Debate",
+          "price": 26000,
+          "quantity": 7,
+          "subtotal": 182000
+        }
+      ],
+      "totalItems": 15,
+      "totalPrice": 391000,
+      "observations": null
     }
   ],
   "account": {
@@ -237,5 +475,13 @@
         "amount": 18750
       }
     ]
-  }
+  },
+  "stock-alerts": [
+    {
+      "id": "a764",
+      "productId": "6",
+      "userId": "demo@libreria.com",
+      "createdAt": "2026-01-12T14:23:39.464Z"
+    }
+  ]
 }
